@@ -1,5 +1,6 @@
 const express = require("express") // iniciando o express
 const router = express.Router() // configurando a primeira parte da rota
+const cors = require('cors') // pacote CORS que permite consumir a API no front-end
 
 const connectaBancoDeDados = require('./bancoDeDados') // ligando ao arquivo bancoDeDados
 connectaBancoDeDados() // chamando a função que conecta o bancoDeDados
@@ -8,6 +9,7 @@ const mulherModel = require("./mulherModel")
 
 const app = express() // iniciando o app
 app.use(express.json())
+app.use(cors())
 const porta = 3333 // criando a porta
 
 // GET
@@ -59,7 +61,7 @@ async function corrigeMulher(request, response) {
         }
 
         const mulherAtualizadaNoBancoDeDados = await mulherEncontrada.save()
-        
+
         response.json(mulherAtualizadaNoBancoDeDados)
     } catch (erro) {
         console.log(erro)
@@ -67,16 +69,13 @@ async function corrigeMulher(request, response) {
 }
 
 //DELETE
-function deletaMulher(request, response) {
-    function todasMenosEla(mulher) {
-        if (mulher.id !== request.params.id) {
-            return mulher
-        }
-    }
-
-    const mulheresQueFicam = mulheres.filter(todasMenosEla)
-
-    response.json(mulheresQueFicam)
+async function deletaMulher(request, response) {
+   try{
+    await Mulher.findByIdAndDelete(request.params.id)
+    response.json({ mensagem: "Mulher deletada com sucesso!"})
+   }catch(erro) {
+    console.log(erro)
+   }    
 }
 
 // PORTA
