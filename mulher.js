@@ -4,7 +4,7 @@ const router = express.Router()
 const app = express()
 const porta = 3333
 
-function mostraMulher(resquest, response) {
+function mostraMulher(request, response) {
     response.json({
         nome: 'Simara Conceição',
         imagem: 'https://github.com/simariaconceicao.png',

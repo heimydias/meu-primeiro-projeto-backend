@@ -4,7 +4,7 @@ const router = express.Router()
 const app = express()
 const porta = 3333
 
-function mostraOla(resquest, response) {
+function mostraOla(request, response) {
     response.send("Olá, mundo!")
 }
 
